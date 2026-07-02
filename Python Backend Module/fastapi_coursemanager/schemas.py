@@ -1,5 +1,6 @@
 from typing import Optional, List
 from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class CourseCreate(BaseModel):
@@ -22,6 +23,45 @@ class CourseResponse(BaseModel):
     code: str
     credits: int
     department_id: int
+    class Config:
+        from_attributes = True
+
+class StudentCreate(BaseModel):
+    first_name: str
+    last_name: str
+    email: str
+    enrollment_year: int
+    department_id: int
+
+
+class StudentResponse(BaseModel):
+    id: int
+    first_name: str
+    last_name: str
+    email: str
+    enrollment_year: int
+    department_id: int
+
+    class Config:
+        from_attributes = True
+
+
+class EnrollmentCreate(BaseModel):
+    student_id: int
+    course_id: int
+    enrollment_date: str
+    grade: str
+
+
+class EnrollmentResponse(BaseModel):
+    id: int
+    student_id: int
+    course_id: int
+    enrollment_date: str
+    grade: str
+
+    class Config:
+        from_attributes = True
 
 
 class DepartmentResponse(BaseModel):
@@ -30,13 +70,3 @@ class DepartmentResponse(BaseModel):
     head_of_dept: str
     budget: float
     courses: List[CourseResponse] = []
-
-class CourseResponse(BaseModel):
-    id: int
-    name: str
-    code: str
-    credits: int
-    department_id: int
-
-    class Config:
-        from_attributes = True
